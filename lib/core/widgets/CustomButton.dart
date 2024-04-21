@@ -47,7 +47,7 @@ class CustomButtonTwoText extends StatelessWidget {
         onTap: onPressed,
         child: Container(
 
-          height: 50,
+          height: SizeConfig.defultSize! * 50,
           width: SizeConfig.screenWidth,
           decoration: BoxDecoration(
               color: Colors.black, borderRadius: BorderRadius.circular(10)),
@@ -87,7 +87,7 @@ class CustomButtonAndIcon extends StatelessWidget {
     return GestureDetector(
         onTap: onPressed,
         child: Container(
-      height: 60,
+      height: SizeConfig.defultSize! * 50,
       width: SizeConfig.screenWidth,
       decoration: BoxDecoration(
           color: Colors.black, borderRadius: BorderRadius.circular(10)),
