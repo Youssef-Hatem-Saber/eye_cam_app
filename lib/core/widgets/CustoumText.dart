@@ -1,3 +1,5 @@
+import 'package:eye_cam_app/core/utils/AuthState/auth_state.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class TextBetweenLines extends StatelessWidget {
@@ -25,5 +27,34 @@ class TextBetweenLines extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class PrivcyPolicy extends StatefulWidget {
+  const PrivcyPolicy({super.key});
+
+  @override
+  State<PrivcyPolicy> createState() => _PrivcyPolicyState();
+}
+
+class _PrivcyPolicyState extends State<PrivcyPolicy> {
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+        text: TextSpan(
+          text: 'By registering with us, you agree to our ',
+          style: TextStyle(color: Colors.black, fontSize: 16.0),
+          children: <TextSpan>[
+            TextSpan(
+              text: 'privacy policy',
+              style: TextStyle(color: Colors.blue),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  AuthState.launchURL('https://mimo902.github.io/privacy/');
+                },
+            ),
+          ],
+        ))
+    ;
   }
 }

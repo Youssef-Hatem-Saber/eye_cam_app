@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eye_cam_app/Features/support/appsView.dart';
 import 'package:eye_cam_app/Features/videoCall/presentation/video_call_page.dart';
 import 'package:eye_cam_app/core/Const/texts.dart';
 import 'package:eye_cam_app/core/utils/AuthState/auth_state.dart';
@@ -9,15 +12,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Rooms extends StatefulWidget {
+class SupporterPage extends StatefulWidget {
   @override
-  _RoomsState createState() => _RoomsState();
+  _SupporterPageState createState() => _SupporterPageState();
 }
 
-class _RoomsState extends State<Rooms> {
-  static String gender = AuthState.data!['gender'];
+class _SupporterPageState extends State<SupporterPage> {
   final Stream<QuerySnapshot> _usersStream =
-  FirebaseFirestore.instance.collection('rooms').where('gender' , whereIn: [gender=='male'?'male':'female','all']).snapshots();
+  FirebaseFirestore.instance.collection('rooms') .where('callID', arrayContains: ['support'])
+      .snapshots();
   User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
@@ -33,12 +36,12 @@ class _RoomsState extends State<Rooms> {
         }
 
         return Scaffold(
-          body: SizedBox.expand( // Set the size of Scaffold to fill the entire screen
+          body: SizedBox.expand(
             child: DecoratedBox(
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(Assets.imagesBackground),
-                  fit: BoxFit.fill, // Make the image fill the entire DecoratedBox
+                  fit: BoxFit.fill,
                 ),
               ),
               child: SafeArea(
@@ -46,7 +49,7 @@ class _RoomsState extends State<Rooms> {
                   children: [
                     Padding(
                       padding: EdgeInsets.all(SizeConfig.defultSize! * 2),
-                      child: const Text("They need help",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                      child: const Text("they need support",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
                     ),
                     Expanded(
                       child: ListView(
@@ -55,17 +58,16 @@ class _RoomsState extends State<Rooms> {
                           document.data()! as Map<String, dynamic>;
                           return Card(
                             child: ListTile(
-                              title: const Text("I need help",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+                              title: const Text("I need support",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
                               subtitle: Row(
                                 children: [
-                                  const Text("help me",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
                                   IconButton(
                                     onPressed: () {
                                       Get.to(
                                         VideoCallPage(
                                           callID: data['callID'],
-                                          userName:" ${user!.displayName}",
-                                          userId: AuthState.data!["id"],
+                                          userName:"Supporter",
+                                          userId: Random.secure().nextInt(9999),
                                         ),
                                       );
                                     },
@@ -78,6 +80,17 @@ class _RoomsState extends State<Rooms> {
                         }).toList(),
                       ),
                     ),
+                    Padding(
+                      padding: EdgeInsets.all( SizeConfig.defultSize! *3),
+                      child: CustomButtonAndIcon(
+                        text: Texts().openAppsPage!,
+                        icon: Icons.logout,
+                        onPressed: () {
+                          Get.to(appsView());
+                        },
+                      ),
+                    ),
+
                     Padding(
                       padding: EdgeInsets.all( SizeConfig.defultSize! *3),
                       child: CustomButtonAndIcon(

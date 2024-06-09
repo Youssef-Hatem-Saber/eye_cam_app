@@ -1,11 +1,14 @@
 import 'package:cherry_toast/cherry_toast.dart';
+import 'package:eye_cam_app/Features/videoCall/presentation/video_call_page.dart';
 import 'package:eye_cam_app/core/Const/texts.dart';
 import 'package:eye_cam_app/core/settings/Settings.dart';
 import 'package:eye_cam_app/core/utils/AuthState/auth_state.dart';
 import 'package:eye_cam_app/core/utils/sizeConfig.dart';
 import 'package:eye_cam_app/core/widgets/CustomButton.dart';
+import 'package:eye_cam_app/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_no_internet_widget/flutter_no_internet_widget.dart';
+import 'package:get/get.dart';
 
 class HomePageView extends StatefulWidget {
   const HomePageView({Key? key}) : super(key: key);
@@ -15,7 +18,11 @@ class HomePageView extends StatefulWidget {
 }
 
 class _HomePageViewState extends State<HomePageView> {
-
+@override
+  void initState() {
+  AuthState();
+  super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
@@ -25,8 +32,8 @@ class _HomePageViewState extends State<HomePageView> {
           body: DecoratedBox(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("asset/images/background.jpg"),
-                fit: BoxFit.fill,
+                image: AssetImage(Assets.imagesBackground),
+
               ),
             ),
             child: Center(
@@ -46,7 +53,7 @@ class _HomePageViewState extends State<HomePageView> {
         body: DecoratedBox(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("asset/images/background.jpg"),
+              image: AssetImage(Assets.imageHomeBG),
               fit: BoxFit.fill,
             ),
           ),
@@ -62,9 +69,13 @@ class _HomePageViewState extends State<HomePageView> {
                       child: CustomGeneralButton(
                         text: Texts().help!,
                         onPressed: () {
-                          setState(() {
-                            AuthState.logout();
-                          });
+                          AuthState.isLogin! ?
+                            Get.to(VideoCallPage(callID: "support${AuthState.data!['id']}", userName:AuthState.data!['name'] , userId: AuthState.data!['id']))
+                          :
+                            CherryToast.error(
+                              title: Text("Please login first"),
+                            ).show(context);
+
                         },
                       ),
                     ),
@@ -86,36 +97,28 @@ class _HomePageViewState extends State<HomePageView> {
                   ],
                 ),
                 const Spacer(),
-                Text(
-                  Texts().welcome!,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const Spacer(),
                 Column(
                   children: [
                     Padding(
                       padding: EdgeInsets.only(
-                        left: SizeConfig.defultSize! * 5,
-                        right: SizeConfig.defultSize! * 5,
+                        left: SizeConfig.defultSize! * 2,
+                        right: SizeConfig.defultSize! * 2,
                         bottom: SizeConfig.defultSize! * 2.5,
                       ),
                       child: CustomButtonTwoText(
                         text: Texts().join!,
                         subText: Texts().subJoin!,
                         onPressed: () async {
-                          AuthState.accountType();
+                        AuthState.isHelper = true;
+                        AuthState.accountType();
                           await AuthState.openPage();
                         },
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                        left: SizeConfig.defultSize! * 5,
-                        right: SizeConfig.defultSize! * 5,
+                        left: SizeConfig.defultSize! * 2,
+                        right: SizeConfig.defultSize! * 2,
                         bottom: SizeConfig.defultSize! * 2.5,
                       ),
                       child: CustomButtonTwoText(

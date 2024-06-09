@@ -1,4 +1,5 @@
 import 'package:eye_cam_app/Features/HomePage/presentation/HomePageView.dart';
+import 'package:eye_cam_app/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gif/gif.dart';
@@ -47,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen>
       body: Center(
         child: Gif(
           image: const AssetImage(
-            'asset/images/splash.gif',
+            Assets.imagesSplash,
           ),
           autostart: Autostart.once,
           controller: _controller,

@@ -6,24 +6,24 @@ import 'package:flutter/material.dart';
 
 class CustomGeneralButton extends StatelessWidget {
 
-  CustomGeneralButton({super.key, required this.text, required this.onPressed});
+  CustomGeneralButton({super.key, required this.text, required this.onPressed,this.color});
   String text;
   VoidCallback onPressed;
   bool isArabic = Settings.language == "Arabic" ? true : false;
+  Color? color;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: onPressed,
         child: Container(
 
-          height: 50,
+          height: SizeConfig.defultSize! *6,
           width: SizeConfig.screenWidth,
           decoration: BoxDecoration(
-              color: Colors.black, borderRadius: BorderRadius.circular(10)),
+              color:color != null?color: Colors.black, borderRadius: BorderRadius.circular(10)),
           child: Center(
 
             child: Text(
-
               text,
               style: const TextStyle(color: Colors.white, fontSize: 20),
               textAlign: isArabic ? TextAlign.right : TextAlign.left,
@@ -47,7 +47,7 @@ class CustomButtonTwoText extends StatelessWidget {
         onTap: onPressed,
         child: Container(
 
-          height: 50,
+          height:SizeConfig.defultSize! *12,
           width: SizeConfig.screenWidth,
           decoration: BoxDecoration(
               color: Colors.black, borderRadius: BorderRadius.circular(10)),
@@ -55,24 +55,27 @@ class CustomButtonTwoText extends StatelessWidget {
 
             child: Column(
               children: [
+                Spacer(),
+
                 Text(
                   text,
-                  style: const TextStyle(color: Colors.white, fontSize: 20),
+                  style: const TextStyle(color: Colors.white, fontSize: 30,fontWeight:FontWeight.bold),
                   textAlign: isArabic ? TextAlign.right : TextAlign.left,
                 ),
+                Spacer(),
                 Text(
                   subText,
-                  style: const TextStyle(color: Colors.white, fontSize: 15),
+                  style: const TextStyle(color: Colors.white, fontSize:18),
                   textAlign: isArabic ? TextAlign.right : TextAlign.left,
                 ),
+                Spacer(),
+
               ],
             ),
           ),
         ));
   }
 }
-
-
 
 
 
@@ -87,7 +90,7 @@ class CustomButtonAndIcon extends StatelessWidget {
     return GestureDetector(
         onTap: onPressed,
         child: Container(
-      height: 60,
+      height: SizeConfig.defultSize! *12,
       width: SizeConfig.screenWidth,
       decoration: BoxDecoration(
           color: Colors.black, borderRadius: BorderRadius.circular(10)),
